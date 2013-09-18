@@ -21,9 +21,9 @@ class charybdis (
   }
   include concat::setup
   concat { $conffile:
-    owner   => "root",
-    group   => "charybdis",
-    mode    => "440",
+    owner   => 'root',
+    group   => 'charybdis',
+    mode    => '440',
     require => Package['charybdis'],
     notify  => Service['charybdis'],
   }
