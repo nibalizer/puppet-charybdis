@@ -1,4 +1,15 @@
-class charybdis::default inherits charybdis {
+class charybdis::default (
+  $manage_package = true,
+)inherits charybdis {
+
+  if $manage_package {
+    package { 'charybdis':
+      ensure => present,
+      before => Anchor['charybdis::package::end'],
+
+    }
+  }
+
   include charybdis::admin
   include charybdis::cluster
   include charybdis::log

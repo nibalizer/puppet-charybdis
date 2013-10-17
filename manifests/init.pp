@@ -9,7 +9,6 @@
 #
 class charybdis (
   $conffile = $charybdis::params::conffile,
-  $manage_package = true,
 ) inherits charybdis::params {
 
   group { 'charybdis':
@@ -18,13 +17,6 @@ class charybdis (
 
   anchor { 'charybdis::package::end': }
 
-  if $manage_package {
-    package { 'charybdis':
-      ensure => present,
-      before => Anchor['charybdis::package::end'],
-
-    }
-  }
   service { 'charybdis':
     ensure  => running,
     enable  => true,
