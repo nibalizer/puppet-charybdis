@@ -35,7 +35,7 @@ class charybdis::serverinfo (
     exec { 'Create private key and cert':
       command => "openssl req -x509 -nodes -newkey rsa:1024 -keyout ${ssl_private_key} -out ${ssl_cert} -subj '/C=US/ST=Oregon/L=Portland/O=PuppetLabs/CN=${server_name}'",
       creates => $ssl_private_key,
-      require => Package['charybdis'],
+      require => Anchor['charybdis::package::end'],
       before  => [
         Concat[$conffile],
         File[$ssl_private_key],
@@ -55,7 +55,7 @@ class charybdis::serverinfo (
     exec { 'Create dhparam':
       command => "openssl dhparam -out $ssl_dh_params 1024",
       creates => $ssl_dh_params,
-      require => Package['charybdis'],
+      require => Anchor['charybdis::package::end'],
       before  => [
         Concat[$conffile],
         File[$ssl_dh_params],

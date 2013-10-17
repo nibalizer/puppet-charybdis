@@ -8,11 +8,22 @@
 #  ripienaar-concat module
 #
 class charybdis (
-  $conffile = $charybdis::params::conffile
+  $conffile = $charybdis::params::conffile,
+  $manage_package = true,
 ) inherits charybdis::params {
 
-  package { 'charybdis':
+  group { 'charybdis':
     ensure => present,
+  }
+
+  anchor { 'charybdis::package::end': }
+
+  if $manage_package {
+    package { 'charybdis':
+      ensure => present,
+      before => Anchor['charybdis::package::end'],
+
+    }
   }
   service { 'charybdis':
     ensure  => running,
@@ -24,7 +35,7 @@ class charybdis (
     owner   => "root",
     group   => "charybdis",
     mode    => "440",
-    require => Package['charybdis'],
+    require => Anchor['charybdis::package::end'],
     notify  => Service['charybdis'],
   }
 }

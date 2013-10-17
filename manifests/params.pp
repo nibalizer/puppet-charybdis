@@ -4,6 +4,9 @@ class charybdis::params {
     'Debian': {
       $conffile = '/etc/charybdis/ircd.conf'
     }
+    'RedHat': {
+      $conffile = '/etc/charybdis/ircd.conf'
+    }
     default: {
       fail("\$osfamily ${osfamily} is not supported by the charybdis module")
     }
